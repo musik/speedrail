@@ -1,0 +1,21 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    = metamagic site: 'Speedrail', title: [:site, :title], separator: " | "
+    %meta{:content => "width=device-width,initial-scale=1", :name => "viewport"}/
+    = csrf_meta_tags
+    = csp_meta_tag
+    / extra Tailwind components
+    %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css", :rel => "stylesheet"}/
+    / app styles
+    = stylesheet_link_tag "tailwind", "data-turbo-track": "reload"
+    = stylesheet_link_tag "application", "data-turbo-track": "reload"
+    = javascript_importmap_tags
+    = render "shared/script_tags"
+  %body
+    %main.container.mx-auto.mt-14.px-6
+      = render "shared/impersonator"
+      = render "shared/flash"
+      = render "shared/header"
+      = yield

@@ -1,0 +1,24 @@
+- meta title: "Blog posts", description: "All blog posts from #{Rails.application.credentials.company_name}."
+= render partial: "shared/heading", locals: { title: 'Blog Posts', description: '' }
+- if current_user&.admin?
+  .mt-8.mx-auto.max-w-fit
+    .group.relative.w-full.flex.justify-center.px-4.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-white.bg-primary-600.hover:bg-primary-700.focus:outline-none{:class => "py-2.5"}
+      .text-base.flex.justify-center.items-center
+        %svg.h-5.w-5.-ml-1.mr-2{"aria-hidden" => "true", :fill => "currentColor", :viewbox => "0 0 20 20", :xmlns => "http://www.w3.org/2000/svg"}
+          %path{"clip-rule" => "evenodd", :d => "M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z", "fill-rule" => "evenodd"}
+        = link_to new_blog_post_path, class: "focus:outline-none" do
+          %span.absolute.inset-0{"aria-hidden" => "true"}
+          New blog post
+.font-inter.antialiased.text-gray-800.tracking-tight.my-16
+  %main.grow
+    %section
+      .mx-auto.max-w-7xl.lg:px-8
+        .mx-auto.mt-16.grid.max-w-2xl.grid-cols-1.gap-x-8.gap-y-20.lg:mx-0.lg:max-w-none.lg:grid-cols-3
+          = render @blog_posts
+      - if current_user && current_user.admin? && @drafts.any?
+        .mx-auto.max-w-7xl.lg:px-8.mt-16.border.border-dashed.bg-white.py-12
+          %p.text-2xl.tracking-tight.font-extrabold.sm:text-2xl.md:text-3xl.font-display.text-gray-800
+            Drafts
+          .mx-auto.mt-8.grid.max-w-2xl.grid-cols-1.gap-x-8.gap-y-20.lg:mx-0.lg:max-w-none.lg:grid-cols-3
+            - @drafts.each do |blog_post|
+              = render blog_post

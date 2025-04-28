@@ -1,0 +1,27 @@
+= render partial: "shared/heading", locals: { title: 'Start Trial', description: "Subscribe to #{Rails.application.credentials.company_name}." }
+#checkout
+  / Checkout will insert the payment form here
+%script{:src => "https://js.stripe.com/v3/"}
+:javascript
+  const stripe = Stripe('#{Rails.application.credentials.stripe&.publishable_key || ''}');
+  
+  initialize();
+  
+  // Create a Checkout Session as soon as the page loads
+  async function initialize() {
+    const response = await fetch("/billing_portal.json", {
+      method: 'POST'
+    });
+  
+    const { clientSecret } = await response.json();
+  
+    const checkout = await stripe.initEmbeddedCheckout({
+      clientSecret,
+    });
+  
+    // Mount Checkout
+    checkout.mount('#checkout');
+  }
+- if ScriptTag.enabled.exists?(name: 'Rewardful')
+  :javascript
+    rewardful('convert', { email: '#{current_user.email}' })
