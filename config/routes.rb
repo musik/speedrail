@@ -1,5 +1,13 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
   ActiveAdmin.routes(self)
+  if Rails.env.development?
+    mount Sidekiq::Web => '/admin/sidekiq'
+  else
+    authenticate :user, lambda { |u| u.admin? } do
+      mount Sidekiq::Web => '/admin/sidekiq'
+    end
+  end
 
   root 'pages#home'
 
