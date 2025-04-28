@@ -25,7 +25,7 @@ module Speedrail
     end
 
     # background jobs
-    config.active_job.queue_adapter = :delayed
+    config.active_job.queue_adapter = :sidekiq
 
     # mailers via postmark
     config.action_mailer.default_url_options = { host: Rails.application.credentials.base_url }
