@@ -81,6 +81,7 @@ test:
 #
 production:
   <<: *default
-  database: speedrail_production
-  username: speedrail
-  password: <%= ENV["SPEEDRAIL_DATABASE_PASSWORD"] %>
+  # database: speedrail_production
+  # username: speedrail
+  # password: <%= ENV["SPEEDRAIL_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
